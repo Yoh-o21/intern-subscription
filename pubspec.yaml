@@ -43,6 +43,8 @@ dependencies:
   firebase_auth: ^3.4.1
   firebase_storage: ^10.2.18
 
+  flutter_native_splash: ^2.2.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -97,3 +99,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_native_splash:
+  image: "assets/images/splash.png"
+  color: "#ffffff"
+  fullscreen: true
