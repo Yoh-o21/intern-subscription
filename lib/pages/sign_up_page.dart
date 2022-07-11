@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intern_subscription/models/date_time_converter.dart';
 import 'package:intern_subscription/pages/root_page.dart';
 import 'package:intern_subscription/sign_provider.dart';
+import 'package:intern_subscription/models/user.dart' as model;
 
 class SignUpPage extends ConsumerWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -14,6 +16,7 @@ class SignUpPage extends ConsumerWidget {
     final isVisible = ref.watch(isVisibleStateProvider);
     final signUpFormKey = GlobalKey<FormState>();
     final auth = FirebaseAuth.instance;
+    final collection = FirebaseFirestore.instance.collection('users');
 
     return WillPopScope(
       onWillPop: () async => false,
@@ -112,9 +115,17 @@ class SignUpPage extends ConsumerWidget {
                       return;
                     }
                     try {
-                      await auth.createUserWithEmailAndPassword(
+                      final result = await auth.createUserWithEmailAndPassword(
                           email: emailController.text,
                           password: passwordController.text);
+                      final user = model.User(
+                          uid: result.user!.uid,
+                          userImg: '',
+                          userName: result.user!.email!.split('@')[0],
+                          createdAt: DateTime.now(),
+                          updatedAt: DateTime.now());
+
+                      await collection.doc(user.uid).set(user.toJson());
                       Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) {
                           return const RootPage();
