@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intern_subscription/pages/root_page.dart';
 import 'package:intern_subscription/pages/sign_up_page.dart';
-import 'package:intern_subscription/sign_provider.dart';
+import 'package:intern_subscription/providers/sign_provider.dart';
 
 class SignInPage extends ConsumerWidget {
   const SignInPage({Key? key}) : super(key: key);
