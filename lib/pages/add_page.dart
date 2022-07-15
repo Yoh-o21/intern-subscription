@@ -175,8 +175,9 @@ class AddPage extends ConsumerWidget {
                     return;
                   }
                   try {
+                    final iid = uuid.v4();
                     final item = Item(
-                        id: uuid.v4(),
+                        id: iid,
                         name: nameController.text,
                         price: int.parse(priceController.text),
                         billingInterval: ref.watch(billingIntervalProvider),
@@ -184,7 +185,7 @@ class AddPage extends ConsumerWidget {
                         startAt: startAt,
                         billingAt: billingAt);
 
-                    await collection.doc().set(item.toJson());
+                    await collection.doc(iid).set(item.toJson());
                     Navigator.pop(context);
 
                     nameController.clear();

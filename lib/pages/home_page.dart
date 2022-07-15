@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intern_subscription/date_time_extension.dart';
@@ -21,54 +23,77 @@ class HomePage extends ConsumerWidget {
                 child: ListView.builder(
                     itemCount: items.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        elevation: 4,
-                        child: SizedBox(
-                            height: 80,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    items[index].name,
-                                    style: TextStyle(
-                                        color: Colors.cyan[900],
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  const SizedBox(
-                                    height: 6,
-                                  ),
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
+                      return Dismissible(
+                        key: UniqueKey(),
+                        direction: DismissDirection.endToStart,
+                        background: Container(
+                            alignment: Alignment.centerRight,
+                            color: Colors.red,
+                            child: const Padding(
+                                padding: EdgeInsets.only(right: 30),
+                                child: Icon(Icons.delete))),
+                        onDismissed: (_) {
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(FirebaseAuth.instance.currentUser?.uid)
+                              .collection('subscription')
+                              .doc(items[index].id)
+                              .delete();
+                        },
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            elevation: 4,
+                            child: SizedBox(
+                                height: 80,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        items[index].name,
+                                        style: TextStyle(
+                                            color: Colors.cyan[900],
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                      const SizedBox(
+                                        height: 4,
+                                      ),
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text('¥${items[index].price}',
+                                            Row(
+                                              children: [
+                                                Text('¥${items[index].price}',
+                                                    style: TextStyle(
+                                                      color: Colors.cyan[900],
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    )),
+                                              ],
+                                            ),
+                                            Text(
+                                                items[index]
+                                                    .billingAt
+                                                    .toFormattedString(
+                                                        'yyyy/MM/dd'),
                                                 style: TextStyle(
                                                   color: Colors.cyan[900],
                                                   fontWeight: FontWeight.bold,
-                                                )),
-                                          ],
-                                        ),
-                                        Text(
-                                            items[index]
-                                                .billingAt
-                                                .toFormattedString(
-                                                    'yyyy/MM//dd'),
-                                            style: TextStyle(
-                                              color: Colors.cyan[900],
-                                              fontWeight: FontWeight.bold,
-                                            ))
-                                      ]),
-                                ],
-                              ),
-                            )),
+                                                ))
+                                          ]),
+                                    ],
+                                  ),
+                                )),
+                          ),
+                        ),
                       );
                     }),
               );
