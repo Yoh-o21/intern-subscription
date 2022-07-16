@@ -4,6 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intern_subscription/pages/root_page.dart';
 import 'package:intern_subscription/pages/sign_up_page.dart';
 import 'package:intern_subscription/providers/sign_provider.dart';
+import 'package:intern_subscription/providers/theme_provider.dart';
+import 'package:intern_subscription/theme_data.dart';
 
 class SignInPage extends ConsumerWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -13,21 +15,22 @@ class SignInPage extends ConsumerWidget {
     final emailController = ref.watch(emailStateProvider);
     final passwordController = ref.watch(passwordStateProvider);
     final isVisible = ref.watch(isVisibleStateProvider);
+    final isDark = ref.watch(isDarkModeProvider);
     final signInFormKey = GlobalKey<FormState>();
     final auth = FirebaseAuth.instance;
 
     return Scaffold(
-      backgroundColor: Colors.grey[300],
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('HELLO',
+            Text('HELLO',
                 style: TextStyle(
-                    fontSize: 40.0,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 0, 96, 100))),
+                  fontSize: 40.0,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? dMainColor : lMainColor,
+                )),
             const SizedBox(height: 40),
             //入力フォーム
             Form(
@@ -106,7 +109,7 @@ class SignInPage extends ConsumerWidget {
                   if (!signInFormKey.currentState!.validate()) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Please fill out all forms correctly.'),
-                      backgroundColor: Colors.red,
+                      backgroundColor: kErrorColor,
                     ));
                     return;
                   }
@@ -125,11 +128,10 @@ class SignInPage extends ConsumerWidget {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text(
                           'Sign in failed. Please fill out all forms correctly or sign up.'),
-                      backgroundColor: Colors.red,
+                      backgroundColor: kErrorColor,
                     ));
                   }
                 },
-                style: ElevatedButton.styleFrom(primary: Colors.cyan[900]),
                 child: const Text(
                   "Sign In",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),

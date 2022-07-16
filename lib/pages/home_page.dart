@@ -13,7 +13,6 @@ class HomePage extends ConsumerWidget {
     final itemStream = ref.watch(itemStreamProvider);
 
     return Scaffold(
-        backgroundColor: Colors.grey[300],
         body: itemStream.when(
             loading: () => const CircularProgressIndicator(),
             error: (error, stack) => Text('Error: $error'),
@@ -31,7 +30,10 @@ class HomePage extends ConsumerWidget {
                             color: Colors.red,
                             child: const Padding(
                                 padding: EdgeInsets.only(right: 30),
-                                child: Icon(Icons.delete))),
+                                child: Icon(
+                                  Icons.delete,
+                                  color: Colors.white,
+                                ))),
                         onDismissed: (_) {
                           FirebaseFirestore.instance
                               .collection('users')
@@ -57,8 +59,7 @@ class HomePage extends ConsumerWidget {
                                     children: [
                                       Text(
                                         items[index].name,
-                                        style: TextStyle(
-                                            color: Colors.cyan[900],
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18),
                                       ),
@@ -72,8 +73,7 @@ class HomePage extends ConsumerWidget {
                                             Row(
                                               children: [
                                                 Text('¥${items[index].price}',
-                                                    style: TextStyle(
-                                                      color: Colors.cyan[900],
+                                                    style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     )),
@@ -84,8 +84,7 @@ class HomePage extends ConsumerWidget {
                                                     .billingAt
                                                     .toFormattedString(
                                                         'yyyy/MM/dd'),
-                                                style: TextStyle(
-                                                  color: Colors.cyan[900],
+                                                style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                 ))
                                           ]),

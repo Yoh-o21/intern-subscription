@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intern_subscription/date_time_extension.dart';
+import 'package:intern_subscription/providers/theme_provider.dart';
 import 'package:intern_subscription/providers/user_provider.dart';
+import 'package:intern_subscription/theme_data.dart';
 
 class SettingPage extends ConsumerWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -9,9 +11,9 @@ class SettingPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider);
+    final isDark = ref.watch(isDarkModeProvider);
 
     return Scaffold(
-      backgroundColor: Colors.grey[300],
       body: user.when(
         loading: () => const CircularProgressIndicator(),
         error: (error, stack) => Text('Error: $error'),
@@ -34,10 +36,10 @@ class SettingPage extends ConsumerWidget {
                           width: 120,
                           height: 120,
                           decoration: BoxDecoration(
-                            color: Colors.grey[300],
                             shape: BoxShape.circle,
                             border: Border.all(
-                                color: const Color(0xFF006064), width: 5.0),
+                                color: isDark ? dMainColor : lMainColor,
+                                width: 5.0),
                             image: DecorationImage(
                                 image: NetworkImage(user.userImg),
                                 fit: BoxFit.cover),
@@ -48,18 +50,20 @@ class SettingPage extends ConsumerWidget {
                           children: [
                             Text(
                               user.userName,
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFF006064)),
+                                  color: isDark ? dMainColor : lMainColor),
                             ),
                             const SizedBox(
                               height: 8,
                             ),
                             Text(
                               'Created on ${user.createdAt.toFormattedString('yyyy/MM/dd')}',
-                              style: const TextStyle(
-                                  fontSize: 10, color: Color(0xFF006064)),
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: isDark ? dMainColor : lMainColor,
+                              ),
                             ),
                           ],
                         ),

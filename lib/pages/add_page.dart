@@ -6,6 +6,7 @@ import 'package:intern_subscription/date_time_extension.dart';
 import 'package:intern_subscription/models/date_time_converter.dart';
 import 'package:intern_subscription/providers/item_provider.dart';
 import 'package:intern_subscription/models/item.dart';
+import 'package:intern_subscription/theme_data.dart';
 import 'package:uuid/uuid.dart';
 
 const uuid = Uuid();
@@ -28,11 +29,8 @@ class AddPage extends ConsumerWidget {
         .collection('subscription');
 
     return Scaffold(
-      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.grey[300],
-        iconTheme: IconThemeData(color: Colors.cyan[900]),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -55,10 +53,8 @@ class AddPage extends ConsumerWidget {
                     decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.shopping_bag),
                         border: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.white),
                             borderRadius: BorderRadius.circular(20)),
                         hintText: 'Subscription Name',
-                        fillColor: Colors.white,
                         filled: true),
                   ),
                   const SizedBox(height: 8),
@@ -80,10 +76,8 @@ class AddPage extends ConsumerWidget {
                     decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.paid),
                         border: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.white),
                             borderRadius: BorderRadius.circular(20)),
                         hintText: 'Price',
-                        fillColor: Colors.white,
                         filled: true),
                   ),
                   const SizedBox(height: 16),
@@ -93,7 +87,6 @@ class AddPage extends ConsumerWidget {
                       Row(
                         children: <Widget>[
                           Radio(
-                            activeColor: Colors.cyan[900],
                             value: BillingInterval.monthly,
                             groupValue: billingInterval,
                             onChanged: (value) {
@@ -107,7 +100,6 @@ class AddPage extends ConsumerWidget {
                       Row(
                         children: <Widget>[
                           Radio(
-                            activeColor: Colors.cyan[900],
                             value: BillingInterval.yearly,
                             groupValue: billingInterval,
                             onChanged: (value) {
@@ -170,7 +162,7 @@ class AddPage extends ConsumerWidget {
                   if (!addItemFormKey.currentState!.validate()) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Please fill out all forms correctly.'),
-                      backgroundColor: Colors.red,
+                      backgroundColor: kErrorColor,
                     ));
                     return;
                   }
@@ -193,11 +185,10 @@ class AddPage extends ConsumerWidget {
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Add item failed.'),
-                      backgroundColor: Colors.red,
+                      backgroundColor: kErrorColor,
                     ));
                   }
                 },
-                style: ElevatedButton.styleFrom(primary: Colors.cyan[900]),
                 child: const Text(
                   'Add',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),

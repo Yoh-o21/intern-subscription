@@ -5,6 +5,7 @@ import 'package:intern_subscription/models/date_time_converter.dart';
 import 'package:intern_subscription/pages/root_page.dart';
 import 'package:intern_subscription/providers/sign_provider.dart';
 import 'package:intern_subscription/models/user.dart' as model;
+import 'package:intern_subscription/theme_data.dart';
 
 class SignUpPage extends ConsumerWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -21,7 +22,6 @@ class SignUpPage extends ConsumerWidget {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        backgroundColor: Colors.grey[300],
         body: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -31,7 +31,7 @@ class SignUpPage extends ConsumerWidget {
                   style: TextStyle(
                       fontSize: 40.0,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 0, 96, 100))),
+                      color: lMainColor)),
               const SizedBox(height: 40),
               //入力フォーム
               Form(
@@ -110,7 +110,7 @@ class SignUpPage extends ConsumerWidget {
                     if (!signUpFormKey.currentState!.validate()) {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('Please fill out all forms correctly.'),
-                        backgroundColor: Colors.red,
+                        backgroundColor: kErrorColor,
                       ));
                       return;
                     }
@@ -137,11 +137,10 @@ class SignUpPage extends ConsumerWidget {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text(
                             'Sign Up failed. Please fill out all forms correctly or sign in.'),
-                        backgroundColor: Colors.red,
+                        backgroundColor: kErrorColor,
                       ));
                     }
                   },
-                  style: ElevatedButton.styleFrom(primary: Colors.cyan[900]),
                   child: const Text(
                     "Sign Up",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),

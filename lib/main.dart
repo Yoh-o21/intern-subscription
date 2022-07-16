@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intern_subscription/pages/root_page.dart';
 import 'package:intern_subscription/pages/sign_in_page.dart';
+import 'package:intern_subscription/providers/theme_provider.dart';
+import 'package:intern_subscription/theme_data.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
@@ -15,14 +17,18 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeModeProvider);
+
     return MaterialApp(
       title: 'Intern subscription app',
       debugShowCheckedModeBanner: false,
+      theme: themeMode == ThemeMode.dark ? darkThemeData : lightThemeData,
+      darkTheme: themeMode == ThemeMode.light ? lightThemeData : darkThemeData,
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
