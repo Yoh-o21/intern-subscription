@@ -5,8 +5,8 @@ import 'package:intern_subscription/providers/theme_provider.dart';
 import 'package:intern_subscription/providers/user_provider.dart';
 import 'package:intern_subscription/theme_data.dart';
 
-class SettingPage extends ConsumerWidget {
-  const SettingPage({Key? key}) : super(key: key);
+class ProfilePage extends ConsumerWidget {
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

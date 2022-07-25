@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intern_subscription/pages/add_page.dart';
 import 'package:intern_subscription/pages/home_page.dart';
-import 'package:intern_subscription/pages/setting_page.dart';
+import 'package:intern_subscription/pages/profile_page.dart';
 import 'package:intern_subscription/pages/sign_in_page.dart';
 import 'package:intern_subscription/providers/theme_provider.dart';
 
-enum PageType { home, setting }
+enum PageType { home, profile }
 
 final pageTypeProvider = StateProvider<PageType>((ref) => PageType.home);
 
@@ -22,7 +22,7 @@ class RootPage extends ConsumerWidget {
     final pageType = ref.watch(pageTypeProvider);
     final pages = [
       const HomePage(),
-      const SettingPage(),
+      const ProfilePage(),
     ];
 
     return WillPopScope(
@@ -38,7 +38,7 @@ class RootPage extends ConsumerWidget {
             children: [
               const ListTile(
                 title: Text(
-                  'Settings',
+                  'Profile',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
@@ -123,8 +123,8 @@ class RootPage extends ConsumerWidget {
               label: 'home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'setting',
+              icon: Icon(Icons.person),
+              label: 'profile',
             ),
           ],
         ),
